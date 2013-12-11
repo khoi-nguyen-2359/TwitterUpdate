@@ -7,6 +7,7 @@ public final class DatabaseContract {
         public static final String TABLE_NAME = "tweet";
         public static final String TWEET_ID = "tweet_id";
         public static final String CONTENT = "content";
+        public static final String USER_SCREEN_NAME = "user_screen_name";
     }
 
     public static final String SCHEME = "content://";

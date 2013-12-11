@@ -1,18 +1,24 @@
 package com.example.twitterupdate.contentprovider.helper;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import com.example.twitterupdate.R;
 import com.example.twitterupdate.contentprovider.DatabaseContract;
+import com.example.twitterupdate.util.TextUtil;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class AppSQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "tweet_update.db";
     private static final int DB_VERSION = 2;
-    private static final String DB_CREATE_SQL = "CREATE TABLE tweet ("
-            + "tweet_id INTEGER PRIMARY KEY NOT NULL UNIQUE," + "content TEXT NOT NULL" + ");";
+    private static String DB_CREATE_SQL = "CREATE TABLE tweet (" + "tweet_id INTEGER PRIMARY KEY NOT NULL,"
+            + "user_screen_name VARCHAR," + "content TEXT" + ");";
 
     private static AppSQLiteOpenHelper mInstance = null;
 
@@ -25,6 +31,18 @@ public class AppSQLiteOpenHelper extends SQLiteOpenHelper {
 
     public AppSQLiteOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+
+        loadDbCreationSQL(context);
+    }
+
+    private void loadDbCreationSQL(Context context) {
+        InputStream is = context.getResources().openRawResource(R.raw.db_create);
+        DB_CREATE_SQL = TextUtil.toString(is);
+        try {
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

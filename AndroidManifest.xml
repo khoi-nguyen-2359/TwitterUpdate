@@ -16,13 +16,22 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <provider
-            android:exported="false"
             android:name="com.example.twitterupdate.contentprovider.TweetUpdateContentProvider"
-            android:authorities="com.example.twitterupdate.provider" >
+            android:authorities="com.example.twitterupdate.provider"
+            android:exported="false" >
         </provider>
 
         <activity
             android:name="com.example.twitterupdate.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.twitterupdate.TweetUpdateActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

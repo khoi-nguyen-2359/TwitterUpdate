@@ -1,0 +1,1 @@
+CREATE TABLE tweet (tweet_id INTEGER PRIMARY KEY NOT NULL,user_screen_name VARCHAR,content TEXT);
