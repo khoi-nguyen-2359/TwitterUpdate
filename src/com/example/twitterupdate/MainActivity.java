@@ -1,5 +1,9 @@
 package com.example.twitterupdate;
 
+import java.util.List;
+
+import com.example.twitterupdate.contentprovider.DatabaseContract;
+
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
@@ -7,8 +11,9 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
-import android.os.Bundle;
 import android.app.Activity;
+import android.content.ContentValues;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -47,18 +52,29 @@ public class MainActivity extends Activity implements OnClickListener {
             public void run() {
                 // The factory instance is re-useable and thread safe.
                 Twitter twitter = tf.getInstance();
-                Query query = new Query("Singapore");
+                Query query = new Query("singapore");
+                query.setCount(10);
                 QueryResult result = null;
-                try {
-                    result = twitter.search(query);
-                } catch (TwitterException e) {
-                    e.printStackTrace();
-                }
+                List<Status> statusList = null;
+//                do {
+                    try {
+                        result = twitter.search(query);
+                    } catch (TwitterException e) {
+                        e.printStackTrace();
+                    }
 
-                for (Status status : result.getTweets()) {
-                    Log.d("khoi.na", "@" + status.getUser().getScreenName() + ":" + status.getText());
-                }
-                
+                    statusList = result.getTweets();
+                    for (Status status : statusList) {
+                        long id = status.getId();
+                        String content = "@" + status.getUser().getScreenName() + ": " + status.getText();
+                        Log.d("khoi.na", id + " " + content);
+                        
+                        ContentValues cv = new ContentValues();
+                        cv.put(DatabaseContract.TWEET.TWEET_ID, id);
+                        cv.put(DatabaseContract.TWEET.CONTENT, content);
+                        getContentResolver().insert(DatabaseContract.TWEET_URI, cv); 
+                    }
+//                } while (statusList != null && statusList.size() != 0);
                 Log.d("khoi.na", "log done");
             }
         };
