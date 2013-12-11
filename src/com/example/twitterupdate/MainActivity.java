@@ -66,6 +66,7 @@ public class MainActivity extends Activity implements OnClickListener {
                         ContentValues cv = new ContentValues();
                         cv.put(DatabaseContract.TWEET.TWEET_ID, id);
                         cv.put(DatabaseContract.TWEET.CONTENT, content);
+                        cv.put(DatabaseContract.TWEET.USER_SCREEN_NAME, statusList.get(i).getUser().getScreenName());
                         cvs[i] = cv;
                     }
                     

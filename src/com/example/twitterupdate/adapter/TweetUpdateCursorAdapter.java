@@ -19,7 +19,7 @@ public class TweetUpdateCursorAdapter extends CursorAdapter {
     }
 
     public TweetUpdateCursorAdapter(Context context, Cursor c) {
-        super(context, c, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        super(context, c, 0);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class TweetUpdateCursorAdapter extends CursorAdapter {
         holder.screenName = (TextView) newView.findViewById(R.id.tv_screen_name);
         holder.content = (TextView) newView.findViewById(R.id.tv_content);
         
-        newView.setTag(newView);
+        newView.setTag(holder);
         
         return newView;
     }

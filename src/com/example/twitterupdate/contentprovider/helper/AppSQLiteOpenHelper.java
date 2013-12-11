@@ -10,13 +10,12 @@ import com.example.twitterupdate.util.TextUtil;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.text.TextUtils;
 import android.util.Log;
 
 public class AppSQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "tweet_update.db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 4;
     private static String DB_CREATE_SQL = "CREATE TABLE tweet (" + "tweet_id INTEGER PRIMARY KEY NOT NULL,"
             + "user_screen_name VARCHAR," + "content TEXT" + ");";
 
