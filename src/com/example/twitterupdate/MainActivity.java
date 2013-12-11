@@ -62,18 +62,22 @@ public class MainActivity extends Activity implements OnClickListener {
                     } catch (TwitterException e) {
                         e.printStackTrace();
                     }
-
+                    Log.d("khoi.na", "since id="+result.getSinceId());
+                    Log.d("khoi.na", "count="+result.getCount());
                     statusList = result.getTweets();
-                    for (Status status : statusList) {
-                        long id = status.getId();
-                        String content = "@" + status.getUser().getScreenName() + ": " + status.getText();
-                        Log.d("khoi.na", id + " " + content);
+                    ContentValues[] cvs = new ContentValues[statusList.size()];
+                    for (int i = 0; i < statusList.size(); ++i) {
+                        long id = statusList.get(i).getId();
+                        String content = "@" + statusList.get(i).getUser().getScreenName() + ": " + statusList.get(i).getText();
+//                        Log.d("khoi.na", id + " " + content);
                         
                         ContentValues cv = new ContentValues();
                         cv.put(DatabaseContract.TWEET.TWEET_ID, id);
                         cv.put(DatabaseContract.TWEET.CONTENT, content);
-                        getContentResolver().insert(DatabaseContract.TWEET_URI, cv); 
+                        cvs[i] = cv;
                     }
+                    
+                    getContentResolver().bulkInsert(DatabaseContract.TWEET_URI, cvs);
 //                } while (statusList != null && statusList.size() != 0);
                 Log.d("khoi.na", "log done");
             }

@@ -8,12 +8,13 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
-public class AppContentProvider extends ContentProvider {
+public class TweetUpdateContentProvider extends ContentProvider {
     private AppSQLiteOpenHelper mSQLiteHelper = null;
     private static UriMatcher sUriMatcher = null;
 
@@ -46,15 +47,50 @@ public class AppContentProvider extends ContentProvider {
         if (table == null)
             return null;
 
-        long rowId = db.insert(table, null, values);
-
+        // use CONFLICT_IGNORE specifically in case of this app (just 1 table 'tweet')
+        long rowId = db.insertWithOnConflict(table, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+        Log.d("khoi.na", "ins id=" + rowId);
         if (rowId < 0)
             return null;
 
         Uri insertUri = ContentUris.withAppendedId(uri, rowId);
         getContext().getContentResolver().notifyChange(insertUri, null);
-        Log.d("khoi.na", "ins id=" + rowId);
         return insertUri;
+    }
+
+    @Override
+    public int bulkInsert(Uri uri, ContentValues[] valuesArray) {
+        int count = 0;
+
+        SQLiteDatabase db = mSQLiteHelper.getWritableDatabase();
+        int match = sUriMatcher.match(uri);
+
+        String table = ContentUriHelper.getTableForCode(match);
+
+        db.beginTransaction();
+        try {
+            for (ContentValues values : valuesArray) {
+                long rowId = db.insertWithOnConflict(table, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+                if (rowId >= 0) {
+                    count++;
+                }
+                
+                Log.d("khoi.na", "ins id=" + rowId);
+            }
+
+            db.setTransactionSuccessful();
+        } catch (SQLException e) {
+            count = 0;
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
+
+        if (count > 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return count;
     }
 
     @Override
