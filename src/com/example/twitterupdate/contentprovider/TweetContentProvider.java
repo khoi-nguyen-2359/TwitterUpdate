@@ -27,7 +27,7 @@ public class TweetContentProvider extends ContentProvider {
         mSQLiteHelper = AppSQLiteOpenHelper.getInstance(getContext());
         return true;
     }
-    
+
     @Override
     public int delete(Uri uri, String where, String[] args) {
         SQLiteDatabase db = mSQLiteHelper.getWritableDatabase();
@@ -35,14 +35,14 @@ public class TweetContentProvider extends ContentProvider {
         String table = ContentUriHelper.getTableForCode(match);
         if (table == null)
             return 0;
-        
+
         if (where == null)
             where = "1";
-        
+
         int affRow = db.delete(table, where, args);
         if (affRow > 0)
             getContext().getContentResolver().notifyChange(uri, null);
-        Log.d("khoi.na", "del n="+affRow);
+        Log.d("khoi.na", "del n=" + affRow);
         return affRow;
     }
 
@@ -67,7 +67,8 @@ public class TweetContentProvider extends ContentProvider {
             return null;
 
         Uri insertUri = ContentUris.withAppendedId(uri, rowId);
-        getContext().getContentResolver().notifyChange(insertUri, null);
+        if (insertUri != null)
+            getContext().getContentResolver().notifyChange(insertUri, null);
         return insertUri;
     }
 
@@ -87,7 +88,7 @@ public class TweetContentProvider extends ContentProvider {
                 if (rowId >= 0) {
                     count++;
                 }
-                
+
                 Log.d("khoi.na", "ins id=" + rowId);
             }
 

@@ -57,6 +57,9 @@ public class TweetUpdateActivity extends Activity implements LoaderCallbacks<Cur
         lvTweet.setAdapter(adapterTweet);
     }
 
+    /**
+     * Set up auth information for Twitter app: https://dev.twitter.com/apps/5490832/show
+     */
     private void initTwitterAuth() {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true).setOAuthConsumerKey("1yxSOPyNnrGRF4WoRoR5g")
@@ -80,7 +83,7 @@ public class TweetUpdateActivity extends Activity implements LoaderCallbacks<Cur
             break;
         }
         case R.id.action_clear: {
-            new ClearTweetAsyncTask(this, getContentResolver(), tf).execute();
+            new ClearTweetAsyncTask(this, getContentResolver()).execute();
             break;
         }
         default:
@@ -100,7 +103,7 @@ public class TweetUpdateActivity extends Activity implements LoaderCallbacks<Cur
     @Override
     public void onLoadFinished(Loader<Cursor> paramLoader, Cursor cursor) {
         adapterTweet.swapCursor(cursor);
-        lvTweet.setSelection(0);
+        lvTweet.setSelection(0);        // scroll to top
         Log.d("khoi.na", "onLoadFinished");
     }
 

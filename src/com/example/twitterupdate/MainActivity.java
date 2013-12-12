@@ -18,6 +18,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+/**
+ * Sample activity
+ * @author khoi2359
+ *
+ */
 public class MainActivity extends Activity implements OnClickListener {
 
     private TwitterFactory tf;
