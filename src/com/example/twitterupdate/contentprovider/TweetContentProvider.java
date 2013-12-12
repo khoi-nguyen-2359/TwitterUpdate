@@ -27,7 +27,7 @@ public class TweetContentProvider extends ContentProvider {
         mSQLiteHelper = AppSQLiteOpenHelper.getInstance(getContext());
         return true;
     }
-
+    
     @Override
     public int delete(Uri arg0, String arg1, String[] arg2) {
         return 0;

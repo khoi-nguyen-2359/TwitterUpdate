@@ -77,6 +77,6 @@ public class UpdateTweetAsyncTask extends AsyncTask<Void, Void, Integer> {
     protected void onPostExecute(Integer result) {
         super.onPostExecute(result);
 
-        Toast.makeText(refActivity.get(), "Got " + result + " tweets.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(refActivity.get(), "Got " + result + " more tweets.", Toast.LENGTH_SHORT).show();
     }
 }
