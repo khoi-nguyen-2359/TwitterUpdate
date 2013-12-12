@@ -31,13 +31,12 @@ public class TweetUpdateActivity extends Activity implements LoaderCallbacks<Cur
     private ContentObserver mContentObserver = new ContentObserver(new Handler()) {
         @Override
         public void onChange(boolean selfChange) {
-            Log.d("khoi.na", "onChange db");
-
             onChange(selfChange, null);
         }
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
+            Log.d("khoi.na", "onChange db, uri="+uri);
             getLoaderManager().restartLoader(0, null, TweetUpdateActivity.this);
         }
     };
