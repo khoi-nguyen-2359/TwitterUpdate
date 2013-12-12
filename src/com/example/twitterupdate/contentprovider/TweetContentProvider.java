@@ -2,7 +2,6 @@ package com.example.twitterupdate.contentprovider;
 
 import com.example.twitterupdate.contentprovider.helper.AppSQLiteOpenHelper;
 import com.example.twitterupdate.contentprovider.helper.ContentUriHelper;
-import com.singtel.hungrygowhere.provider.HGWDatabaseStructure.HGWContentURIs;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
