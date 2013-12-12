@@ -2,6 +2,7 @@ package com.example.twitterupdate.contentprovider;
 
 import com.example.twitterupdate.contentprovider.helper.AppSQLiteOpenHelper;
 import com.example.twitterupdate.contentprovider.helper.ContentUriHelper;
+import com.singtel.hungrygowhere.provider.HGWDatabaseStructure.HGWContentURIs;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -123,7 +124,15 @@ public class TweetContentProvider extends ContentProvider {
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        SQLiteDatabase db = mSQLiteHelper.getWritableDatabase();
+        int match = sUriMatcher.match(uri);
+
+        int rowCount = db.update(ContentUriHelper.getTableForCode(match), values, selection, selectionArgs);
+        if (rowCount > 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowCount;
     }
 
 }
