@@ -8,7 +8,6 @@
         android:id="@+id/tv_screen_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp" 
         android:textStyle="bold"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -20,9 +19,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:textStyle="italic"
         />
 
     <TextView
+        android:layout_marginTop="4dp" 
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
