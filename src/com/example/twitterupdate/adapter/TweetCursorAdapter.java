@@ -9,6 +9,7 @@ import com.example.twitterupdate.contentprovider.DatabaseContract;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,12 @@ public class TweetCursorAdapter extends CursorAdapter {
         newView.setTag(holder);
 
         return newView;
+    }
+    
+    @Override
+    protected void onContentChanged() {
+        super.onContentChanged();
+        Log.d("khoi.na", "onContentChanged");
     }
 
     @Override

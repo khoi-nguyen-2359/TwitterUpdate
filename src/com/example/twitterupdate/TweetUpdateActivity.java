@@ -76,7 +76,7 @@ public class TweetUpdateActivity extends Activity implements LoaderCallbacks<Cur
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.action_update: {
-            new UpdateTweetAsyncTask(getContentResolver(), tf).execute();
+            new UpdateTweetAsyncTask(this, getContentResolver(), tf).execute();
             break;
         }
         default:
@@ -88,12 +88,14 @@ public class TweetUpdateActivity extends Activity implements LoaderCallbacks<Cur
 
     @Override
     public Loader<Cursor> onCreateLoader(int paramInt, Bundle paramBundle) {
+        Log.d("khoi.na", "onCreateLoader");
         return new TweetLoader(this, DatabaseContract.TWEET_URI, null, null, null, DatabaseContract.TWEET.TWEET_ID + " desc", mContentObserver);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> paramLoader, Cursor cursor) {
         adapterTweet.swapCursor(cursor);
+        lvTweet.setSelection(0);
         Log.d("khoi.na", "onLoadFinished");
     }
 
