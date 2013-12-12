@@ -4,6 +4,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 import com.example.twitterupdate.adapter.TweetCursorAdapter;
+import com.example.twitterupdate.asynctask.ClearTweetAsyncTask;
 import com.example.twitterupdate.asynctask.UpdateTweetAsyncTask;
 import com.example.twitterupdate.contentprovider.DatabaseContract;
 import com.example.twitterupdate.loader.TweetLoader;
@@ -26,15 +27,15 @@ public class TweetUpdateActivity extends Activity implements LoaderCallbacks<Cur
     private ListView lvTweet;
     private TweetCursorAdapter adapterTweet;
     private TwitterFactory tf;
-    
+
     private ContentObserver mContentObserver = new ContentObserver(new Handler()) {
         @Override
         public void onChange(boolean selfChange) {
             Log.d("khoi.na", "onChange db");
-            
+
             onChange(selfChange, null);
         }
-        
+
         @Override
         public void onChange(boolean selfChange, Uri uri) {
             getLoaderManager().restartLoader(0, null, TweetUpdateActivity.this);
@@ -79,17 +80,22 @@ public class TweetUpdateActivity extends Activity implements LoaderCallbacks<Cur
             new UpdateTweetAsyncTask(this, getContentResolver(), tf).execute();
             break;
         }
+        case R.id.action_clear: {
+            new ClearTweetAsyncTask(this, getContentResolver(), tf).execute();
+            break;
+        }
         default:
             break;
         }
-        
+
         return true;
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int paramInt, Bundle paramBundle) {
         Log.d("khoi.na", "onCreateLoader");
-        return new TweetLoader(this, DatabaseContract.TWEET_URI, null, null, null, DatabaseContract.TWEET.TWEET_ID + " desc", mContentObserver);
+        return new TweetLoader(this, DatabaseContract.TWEET_URI, null, null, null, DatabaseContract.TWEET.TWEET_ID
+                + " desc", mContentObserver);
     }
 
     @Override

@@ -51,14 +51,14 @@ public class UpdateTweetAsyncTask extends AsyncTask<Void, Void, Integer> {
         int nTweet = statusList.size();
         ContentValues[] cvs = new ContentValues[nTweet];
         for (int i = 0; i < nTweet; ++i) {
-            twitter4j.Status s = statusList.get(i);
-            long id = s.getId();
-            String content = s.getText();
+            twitter4j.Status status = statusList.get(i);
+            long id = status.getId();
+            String content = status.getText();
             String screenName = null;
-            long createdAtSec = s.getCreatedAt().getTime() / 1000;
+            long createdAtSec = status.getCreatedAt().getTime() / 1000;
 
-            if (s.getUser() != null)
-                screenName = s.getUser().getScreenName();
+            if (status.getUser() != null)
+                screenName = status.getUser().getScreenName();
 
             ContentValues cv = new ContentValues();
             cv.put(DatabaseContract.TWEET.TWEET_ID, id);
@@ -68,15 +68,14 @@ public class UpdateTweetAsyncTask extends AsyncTask<Void, Void, Integer> {
             cvs[i] = cv;
         }
 
-        mContentResolver.bulkInsert(DatabaseContract.TWEET_URI, cvs);
-
-        return nTweet;
+        return mContentResolver.bulkInsert(DatabaseContract.TWEET_URI, cvs);
     }
 
     @Override
     protected void onPostExecute(Integer result) {
         super.onPostExecute(result);
 
-        Toast.makeText(refActivity.get(), "Got " + result + " more tweets.", Toast.LENGTH_SHORT).show();
+        if (refActivity.get() != null)
+            Toast.makeText(refActivity.get(), "Got " + result + " more tweets.", Toast.LENGTH_SHORT).show();
     }
 }

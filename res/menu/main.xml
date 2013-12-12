@@ -6,4 +6,9 @@
         android:showAsAction="always"
         android:title="@string/action_update"/>
 
+        <item
+        android:id="@+id/action_clear"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/action_clear"/>
 </menu>

@@ -29,8 +29,21 @@ public class TweetContentProvider extends ContentProvider {
     }
     
     @Override
-    public int delete(Uri arg0, String arg1, String[] arg2) {
-        return 0;
+    public int delete(Uri uri, String where, String[] args) {
+        SQLiteDatabase db = mSQLiteHelper.getWritableDatabase();
+        int match = sUriMatcher.match(uri);
+        String table = ContentUriHelper.getTableForCode(match);
+        if (table == null)
+            return 0;
+        
+        if (where == null)
+            where = "1";
+        
+        int affRow = db.delete(table, where, args);
+        if (affRow > 0)
+            getContext().getContentResolver().notifyChange(uri, null);
+        Log.d("khoi.na", "del n="+affRow);
+        return affRow;
     }
 
     @Override
