@@ -1,5 +1,9 @@
 package com.example.twitterupdate.adapter;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.example.twitterupdate.R;
 import com.example.twitterupdate.contentprovider.DatabaseContract;
 
@@ -11,14 +15,15 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-public class TweetUpdateCursorAdapter extends CursorAdapter {
+public class TweetCursorAdapter extends CursorAdapter {
 
     public static class ViewHolder {
-        TextView screenName;
-        TextView content;
+        TextView tvScreenName;
+        TextView tvContent;
+        TextView tvCreatedAt;
     }
 
-    public TweetUpdateCursorAdapter(Context context, Cursor c) {
+    public TweetCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);
     }
 
@@ -28,22 +33,30 @@ public class TweetUpdateCursorAdapter extends CursorAdapter {
         View newView = inflater.inflate(R.layout.item_tweet_update, viewGroup, false);
 
         ViewHolder holder = new ViewHolder();
-        holder.screenName = (TextView) newView.findViewById(R.id.tv_screen_name);
-        holder.content = (TextView) newView.findViewById(R.id.tv_content);
-        
+        holder.tvScreenName = (TextView) newView.findViewById(R.id.tv_screen_name);
+        holder.tvContent = (TextView) newView.findViewById(R.id.tv_content);
+        holder.tvCreatedAt = (TextView) newView.findViewById(R.id.tv_created_at);
+
         newView.setTag(holder);
-        
+
         return newView;
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder holder = (ViewHolder) view.getTag();
-        
+
         int colIndex = cursor.getColumnIndex(DatabaseContract.TWEET.USER_SCREEN_NAME);
-        holder.screenName.setText(cursor.getString(colIndex));
+        holder.tvScreenName.setText(cursor.getString(colIndex));
+
         colIndex = cursor.getColumnIndex(DatabaseContract.TWEET.CONTENT);
-        holder.content.setText(cursor.getString(colIndex));
+        holder.tvContent.setText(cursor.getString(colIndex));
+
+        colIndex = cursor.getColumnIndex(DatabaseContract.TWEET.CREATED_AT);
+        long createdAtSec = cursor.getLong(colIndex);
+        java.util.Date date = new Date(createdAtSec * 1000);
+        DateFormat dateFormat = SimpleDateFormat.getDateTimeInstance();
+        holder.tvCreatedAt.setText(dateFormat.format(date));
     }
 
 }

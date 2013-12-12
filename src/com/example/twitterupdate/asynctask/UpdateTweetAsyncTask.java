@@ -2,18 +2,16 @@ package com.example.twitterupdate.asynctask;
 
 import java.util.List;
 
-import com.example.twitterupdate.contentprovider.DatabaseContract;
-
 import twitter4j.Query;
 import twitter4j.QueryResult;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.os.AsyncTask;
-import android.util.Log;
+
+import com.example.twitterupdate.contentprovider.DatabaseContract;
 
 public class UpdateTweetAsyncTask extends AsyncTask<Void, Void, Void> {
 
@@ -49,13 +47,16 @@ public class UpdateTweetAsyncTask extends AsyncTask<Void, Void, Void> {
             long id = s.getId();
             String content = s.getText();
             String screenName = null;
+            long createdAtSec = s.getCreatedAt().getTime() / 1000;
+            
             if (s.getUser() != null)
                 screenName = s.getUser().getScreenName();
-
+            
             ContentValues cv = new ContentValues();
             cv.put(DatabaseContract.TWEET.TWEET_ID, id);
             cv.put(DatabaseContract.TWEET.CONTENT, content);
             cv.put(DatabaseContract.TWEET.USER_SCREEN_NAME, screenName);
+            cv.put(DatabaseContract.TWEET.CREATED_AT, createdAtSec);
             cvs[i] = cv;
         }
 

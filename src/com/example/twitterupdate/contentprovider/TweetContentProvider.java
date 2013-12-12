@@ -14,7 +14,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
-public class TweetUpdateContentProvider extends ContentProvider {
+public class TweetContentProvider extends ContentProvider {
     private AppSQLiteOpenHelper mSQLiteHelper = null;
     private static UriMatcher sUriMatcher = null;
 

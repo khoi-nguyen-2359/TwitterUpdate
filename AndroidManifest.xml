@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <provider
-            android:name="com.example.twitterupdate.contentprovider.TweetUpdateContentProvider"
+            android:name="com.example.twitterupdate.contentprovider.TweetContentProvider"
             android:authorities="com.example.twitterupdate.provider"
             android:exported="false" >
         </provider>

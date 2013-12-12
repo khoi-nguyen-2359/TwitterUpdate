@@ -10,6 +10,7 @@ public final class DatabaseContract {
         public static final String TWEET_ID = "tweet_id";
         public static final String CONTENT = "content";
         public static final String USER_SCREEN_NAME = "user_screen_name";
+        public static final String CREATED_AT = "created_at";
     }
 
     public static final String SCHEME = "content://";

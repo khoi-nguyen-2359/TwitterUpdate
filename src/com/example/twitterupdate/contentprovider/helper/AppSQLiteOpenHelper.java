@@ -15,7 +15,7 @@ import android.util.Log;
 public class AppSQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "tweet_update.db";
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
     private static String DB_CREATE_SQL = "CREATE TABLE tweet (" + "tweet_id INTEGER PRIMARY KEY NOT NULL,"
             + "user_screen_name VARCHAR," + "content TEXT" + ");";
 

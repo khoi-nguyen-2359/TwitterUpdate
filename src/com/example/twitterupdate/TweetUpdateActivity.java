@@ -3,10 +3,10 @@ package com.example.twitterupdate;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
-import com.example.twitterupdate.adapter.TweetUpdateCursorAdapter;
+import com.example.twitterupdate.adapter.TweetCursorAdapter;
 import com.example.twitterupdate.asynctask.UpdateTweetAsyncTask;
 import com.example.twitterupdate.contentprovider.DatabaseContract;
-import com.example.twitterupdate.loader.TweetUpdateLoader;
+import com.example.twitterupdate.loader.TweetLoader;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +24,7 @@ import android.database.Cursor;
 public class TweetUpdateActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     private ListView lvTweet;
-    private TweetUpdateCursorAdapter adapterTweet;
+    private TweetCursorAdapter adapterTweet;
     private TwitterFactory tf;
     
     private ContentObserver mContentObserver = new ContentObserver(new Handler()) {
@@ -53,7 +53,7 @@ public class TweetUpdateActivity extends Activity implements LoaderCallbacks<Cur
     private void initViews() {
         setContentView(R.layout.activity_tweet_update);
         lvTweet = (ListView) findViewById(R.id.lv_tweet);
-        adapterTweet = new TweetUpdateCursorAdapter(this, null);
+        adapterTweet = new TweetCursorAdapter(this, null);
         lvTweet.setAdapter(adapterTweet);
     }
 
@@ -88,7 +88,7 @@ public class TweetUpdateActivity extends Activity implements LoaderCallbacks<Cur
 
     @Override
     public Loader<Cursor> onCreateLoader(int paramInt, Bundle paramBundle) {
-        return new TweetUpdateLoader(this, DatabaseContract.TWEET_URI, null, null, null, null, mContentObserver);
+        return new TweetLoader(this, DatabaseContract.TWEET_URI, null, null, null, DatabaseContract.TWEET.TWEET_ID + " desc", mContentObserver);
     }
 
     @Override
